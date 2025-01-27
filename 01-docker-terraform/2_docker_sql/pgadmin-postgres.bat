@@ -1,3 +1,6 @@
+docker run -it --entrypoint=bash python:3.12.8
+
+
 docker run -it \
     -e POSTGRES_USER="root" \
     -e POSTGRES_PASSWORD="root" \
