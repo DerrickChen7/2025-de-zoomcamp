@@ -1,12 +1,12 @@
 variable "credentials" {
   description = "Service account credentials"
   type        = string
-  default     = "./keys/terraform-demo-448504-917e55ff73cf.json"
+  default     = "~/.google/credentials/google_credentials.json"
 }
 
 variable "project" {
   description = "Project"
-  default = "terraform-demo-448504"
+  default = "dtc-de-448703"
 
 }
 
@@ -27,11 +27,11 @@ variable "location" {
 variable "bq_dataset_name" {
   description = "My BigQuery dataset name"
   type        = string
-  default     = "demo_dataset"
+  default     = "dtc_dataset_448703"
 }
 
 variable "gcs_bucket_name" {
   description = "My GCS bucket name"
   type        = string
-  default     = "terraform-demo-448504-terra-bucket"
+  default     = "dtc_data_lake_448703"
 }
