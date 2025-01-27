@@ -9,7 +9,7 @@ docker run -it \
     -p 5432:5432 \
     postgres:13
 
-## CONNECT TO DATABASE USING PGCLI pgcli -h localhost -p 5432 -u root -d ny_taxi
+:: CONNECT TO DATABASE USING PGCLI pgcli -h localhost -p 5432 -u root -d ny_taxi
 
 docker run -it \
     -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
@@ -17,7 +17,7 @@ docker run -it \
     -p 8080:80 \
     dpage/pgadmin4
 
-## create a Network to connect 2 containers together. One for the database and the other for the pgadmin.
+:: create a Network to connect 2 containers together. One for the database and the other for the pgadmin.
 
 docker network create pg-network
 
