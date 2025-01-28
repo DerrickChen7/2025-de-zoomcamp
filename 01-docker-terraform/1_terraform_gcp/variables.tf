@@ -27,7 +27,7 @@ variable "location" {
 variable "bq_dataset_name" {
   description = "My BigQuery dataset name"
   type        = string
-  default     = "dtc_dataset_448703"
+  default     = "trips_data_all"
 }
 
 variable "gcs_bucket_name" {

@@ -1,25 +1,20 @@
-# First-time build can take upto 10 mins.
-
+# Use the official Airflow Docker image
 FROM apache/airflow:2.10.4
 
+# Set the Airflow home directory
 ENV AIRFLOW_HOME=/opt/airflow
 
+# Install system dependencies as root
 USER root
-RUN apt-get update -qq && apt-get install vim -qqq
-# git gcc g++ -qqq
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+    vim \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir pandas sqlalchemy psycopg2-binary
-
-
-# Ref: https://airflow.apache.org/docs/docker-stack/recipes.html
-
-SHELL ["/bin/bash", "-o", "pipefail", "-e", "-u", "-x", "-c"]
-
+# Install Google Cloud SDK
 ARG CLOUD_SDK_VERSION=507.0.0
 ENV GCLOUD_HOME=/home/google-cloud-sdk
-
 ENV PATH="${GCLOUD_HOME}/bin/:${PATH}"
 
 RUN DOWNLOAD_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz" \
@@ -35,6 +30,12 @@ RUN DOWNLOAD_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/goo
     && rm -rf "${TMP_DIR}" \
     && gcloud --version
 
-WORKDIR $AIRFLOW_HOME
+# Switch to the Airflow user
+USER airflow
 
-USER $AIRFLOW_UID
+# Install Python dependencies for GCP and Airflow
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
+
+# Set the working directory
+WORKDIR $AIRFLOW_HOME

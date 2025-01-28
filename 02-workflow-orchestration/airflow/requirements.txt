@@ -1,2 +1,5 @@
-apache-airflow-providers-google
+apache-airflow[gcp]==2.10.4
+pandas
+sqlalchemy
+psycopg2-binary
 pyarrow
