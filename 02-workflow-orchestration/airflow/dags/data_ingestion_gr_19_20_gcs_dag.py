@@ -17,17 +17,17 @@ PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
 BUCKET = os.environ.get("GCP_GCS_BUCKET")
 BIGQUERY_DATASET = os.environ.get("BIGQUERY_DATASET", "trips_data_all")
 
-URL_PREFIX = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow'
-URL_TEMPLATE = URL_PREFIX + '/yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.csv.gz'
-OUTPUT_FILE_TEMPLATE = AIRFLOW_HOME + '/yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.csv.gz'
-CSV_FILE = 'yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.csv.gz'
-PART_FILE = 'yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.parquet'
+URL_PREFIX = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green'
+URL_TEMPLATE = URL_PREFIX + '/green_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.csv.gz'
+OUTPUT_FILE_TEMPLATE = AIRFLOW_HOME + '/green_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.csv.gz'
+CSV_FILE = 'green_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.csv.gz'
+PART_FILE = 'green_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.parquet'
 PART_FILE_TEMPLATE = OUTPUT_FILE_TEMPLATE.replace('.csv.gz', '.parquet')
-TABLE_NAME_TEMPLATE = 'yellow_tripdata_{{ execution_date.strftime(\'%Y_%m\') }}'
-TRANSFORMED_TABLE_NAME_TEMPLATE = 'yellow_tripdata_transformed_{{ execution_date.strftime(\'%Y_%m\') }}'
-MASTER_TABLE_NAME = 'yellow_tripdata_master'
+TABLE_NAME_TEMPLATE = 'green_tripdata_{{ execution_date.strftime(\'%Y_%m\') }}'
+TRANSFORMED_TABLE_NAME_TEMPLATE = 'green_tripdata_transformed_{{ execution_date.strftime(\'%Y_%m\') }}'
+MASTER_TABLE_NAME = 'green_tripdata_master'
 
-# dataset_file = "yellow_tripdata_2020-01.csv.gz"
+# dataset_file = "green_tripdata_2020-01.csv.gz"
 # dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/{dataset_file}"
 # path_to_local_home = os.environ.get("AIRFLOW_HOME", "/opt/airflow/")
 # parquet_file = dataset_file.replace('.csv.gz', '.parquet')
@@ -53,7 +53,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="data_ingestion_yl_19_20_gcs_dag",
+    dag_id="data_ingestion_gr_19_20_gcs_dag",
     schedule_interval="0 6 1 * *",
     default_args=default_args,
     catchup=True,
@@ -124,22 +124,24 @@ with DAG(
                     CREATE TABLE IF NOT EXISTS `{PROJECT_ID}.{BIGQUERY_DATASET}.{MASTER_TABLE_NAME}` (
                         file_name STRING,
                         VendorID INT64,
-                        tpep_pickup_datetime TIMESTAMP,
-                        tpep_dropoff_datetime TIMESTAMP,
-                        passenger_count INT64,
-                        trip_distance FLOAT64,
-                        RatecodeID INT64,
+                        lpep_pickup_datetime TIMESTAMP,
+                        lpep_dropoff_datetime TIMESTAMP,
                         store_and_fwd_flag STRING,
+                        RatecodeID INT64,
                         PULocationID INT64,
                         DOLocationID INT64,
-                        payment_type INT64,
+                        passenger_count INT64,
+                        trip_distance FLOAT64,
                         fare_amount FLOAT64,
                         extra FLOAT64,
                         mta_tax FLOAT64,
                         tip_amount FLOAT64,
                         tolls_amount FLOAT64,
+                        ehail_fee FLOAT64,
                         improvement_surcharge FLOAT64,
                         total_amount FLOAT64,
+                        payment_type INT64,
+                        trip_type INT64,
                         congestion_surcharge FLOAT64
                     )
                 """,
