@@ -59,7 +59,7 @@ with DAG(
     catchup=True,
     max_active_runs=1,
     start_date=datetime(2019, 1, 1),
-    end_date=datetime(2020, 12, 5),
+    end_date=datetime(2021, 7, 5),
     tags=["dtc-de"],
 ) as dag:
     
