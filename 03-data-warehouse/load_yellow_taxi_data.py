@@ -7,11 +7,11 @@ import time
 
 
 #Change this to your bucket name
-BUCKET_NAME = "dezoomcamp_hw3_2025"  
+BUCKET_NAME = "dtc_data_lake_448703"  
 
 #If you authenticated through the GCP SDK you can comment out these two lines
-CREDENTIALS_FILE = "gcs.json"  
-client = storage.Client.from_service_account_json(CREDENTIALS_FILE)
+##CREDENTIALS_FILE = "google_credentials.json"  
+client = storage.Client()
 
 
 BASE_URL = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-"
