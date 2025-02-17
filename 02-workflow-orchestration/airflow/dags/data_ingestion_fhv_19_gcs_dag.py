@@ -53,13 +53,13 @@ default_args = {
 }
 
 with DAG(
-    dag_id="data_ingestion_yl_19_20_gcs_dag",
+    dag_id="data_ingestion_fhv_19_gcs_dag",
     schedule_interval="0 6 1 * *",
     default_args=default_args,
     catchup=True,
     max_active_runs=1,
     start_date=datetime(2019, 1, 1),
-    end_date=datetime(2021, 7, 5),
+    end_date=datetime(2019, 12, 5),
     tags=["dtc-de"],
 ) as dag:
     
